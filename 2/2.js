@@ -11,17 +11,43 @@ function getData(file) {
 }
 
 function calculatePosition(data) {
-  let x = (depth = 0);
+  let [x, depth] = [0, 0];
   for (const tuple of data) {
+    value = tuple[1];
     switch (tuple[0]) {
       case "forward":
-        x += tuple[1];
+        x += value;
         break;
       case "down":
-        depth += tuple[1];
+        depth += value;
         break;
       case "up":
-        depth -= tuple[1];
+        depth -= value;
+        break;
+      default:
+        break;
+    }
+  }
+  return x * depth;
+}
+
+function calculatePositionWithAim(data) {
+  let [x, depth, aim] = [0, 0, 0];
+  for (const tuple of data) {
+    value = tuple[1];
+    switch (tuple[0]) {
+      case "forward":
+        x += value;
+        depth += aim * value;
+        break;
+      case "down":
+        // depth += value;
+        aim += value;
+        break;
+      case "up":
+        // depth -= value;
+        aim -= value;
+        break;
       default:
         break;
     }
@@ -32,7 +58,9 @@ function calculatePosition(data) {
 function main() {
   const data = getData("input.txt");
   const res1 = calculatePosition(data);
-  console.log(res1);
+  const res2 = calculatePositionWithAim(data);
+  console.log(`Part 1: ${res1}`);
+  console.log(`Part 2: ${res2}`);
 }
 
 main();
