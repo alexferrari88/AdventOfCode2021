@@ -41,11 +41,9 @@ function calculatePositionWithAim(data) {
         depth += aim * value;
         break;
       case "down":
-        // depth += value;
         aim += value;
         break;
       case "up":
-        // depth -= value;
         aim -= value;
         break;
       default:
