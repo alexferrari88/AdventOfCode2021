@@ -1,46 +1,34 @@
 ﻿const fs = require("fs");
 
-function solvePart1(data) {
-  let count = 0;
-
-  for (let i = 1; i < data.length; i++) {
-    if (data[i] > data[i - 1]) {
-      count++;
-    }
-  }
-
-  return count;
+function getData(file) {
+  let rawData = fs.readFileSync(file, { encoding: "utf-8" });
+  return rawData
+    .trim()
+    .split("\n")
+    .map((el) => parseInt(el));
 }
 
-function solvePart2(data) {
-  const k = 3;
-  let currSum = 0;
-  let prevSum = 0;
-  let count = 0;
-
-  for (let i = 0; i < k; i++) {
+function countIncreases(data, windowSize = 1) {
+  let [count, prevSum, currSum] = [0, 0, 0];
+  for (let i = 0; i < windowSize; i++) {
     prevSum += data[i];
   }
 
-  for (let i = 0; i < data.length - k; i++) {
-    currSum = prevSum - data[i] + data[i + k];
+  for (let i = 0; i < data.length - windowSize; i++) {
+    currSum = prevSum - data[i] + data[i + windowSize];
     if (currSum > prevSum) count++;
     prevSum = currSum;
   }
   return count;
 }
 
-fs.readFile("1_input.txt", "utf-8", (err, rawData) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
+function main() {
+  const data = getData("input.txt");
+  let res1 = countIncreases(data);
+  let res2 = countIncreases(data, 3);
 
-  const data = rawData
-    .trim()
-    .split("\n")
-    .map((el) => parseInt(el));
+  console.log(`Part 1: ${res1}`);
+  console.log(`Part 2: ${res2}`);
+}
 
-  console.log(`Part 1: ${solvePart1(data)}`);
-  console.log(`Part 2: ${solvePart2(data)}`);
-});
+main();
