@@ -84,8 +84,38 @@ def solve_part_1(cards, numbers):
                 return sum(unused_nums) * n
 
 
+def solve_part_2(cards, numbers):
+    marked_cards = [
+        np.zeros((BINGO_ROW_COLUMN_SIZE, BINGO_ROW_COLUMN_SIZE), dtype=np.uintc)
+        for _ in range(len(cards))
+    ]
+    nums_checked_in_cards = [set() for i in range(len(cards))]
+    winner_cards = []
+    last_winning_numbers = []
+    for n in numbers:
+        for card_index, card in enumerate(cards):
+            all_nums_in_card = set(flatten_list(card))
+            marked_card, is_num_in_card = mark_card(
+                card=card, marked_card=marked_cards[card_index], drawn_number=n
+            )
+            marked_cards[card_index] = marked_card
+            if is_num_in_card and card_index not in winner_cards:
+                nums_checked_in_cards[card_index].add(n)
+                if check_card_for_win(marked_card):
+                    winner_cards.append(card_index)
+                    last_winning_numbers.append(n)
+
+    last_winner_card = cards[winner_cards[-1]]
+    n = last_winning_numbers[-1]
+    all_nums_in_card = set(flatten_list(last_winner_card))
+    unused_nums = all_nums_in_card.difference(nums_checked_in_cards[winner_cards[-1]])
+    return sum(unused_nums) * n
+
+
 if __name__ == "__main__":
     data = get_data("input.txt")
     cards, drawn_numbers = process_data(data)
     res1 = solve_part_1(cards, drawn_numbers)
+    res2 = solve_part_2(cards, drawn_numbers)
     print(f"Res 1: {res1}")
+    print(f"Res 2: {res2}")
