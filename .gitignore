@@ -1,2 +1,5 @@
 ﻿.vscode
 *.exe
+.secrets
+.env
+Untitled*.ipynb
