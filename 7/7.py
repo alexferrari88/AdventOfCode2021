@@ -15,9 +15,9 @@ def solve_part_1(data):
 
 
 def solve_part_2(data):
-    most_common = math.floor(mean(data))
-    print(most_common)
-    return sum(abs(p - most_common) + sum(range(abs(p - most_common))) for p in data)
+    average_num = math.floor(mean(data))
+    print(average_num)
+    return sum(abs(p - average_num) + sum(range(abs(p - average_num))) for p in data)
 
 
 data = get_data("input.txt")
