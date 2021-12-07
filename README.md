@@ -15,4 +15,5 @@ This is my attempt at Advent of Code 2021. Since I would like to improve my Java
 | [Day 4](https://adventofcode.com/2021/day/4) | ⭐ | ⭐ |
 | [Day 5](https://adventofcode.com/2021/day/5) | ⭐ | ⭐ |
 | [Day 6](https://adventofcode.com/2021/day/6) | ⭐ | ⭐ |
+| [Day 7](https://adventofcode.com/2021/day/7) | ⭐ | ⭐ |
 <!--- advent_readme_stars table --->
