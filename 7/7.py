@@ -16,7 +16,6 @@ def solve_part_1(data):
 
 def solve_part_2(data):
     average_num = math.floor(mean(data))
-    print(average_num)
     return sum(abs(p - average_num) + sum(range(abs(p - average_num))) for p in data)
 
 
