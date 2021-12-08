@@ -22,48 +22,48 @@ def solve_part_1(data):
 
 def decode_signal_pattern(digits_patterns):
     to_return = [None] * len(digits_patterns)
-    for i, digit_pattern in enumerate(digits_patterns):
+    for digit_pattern in digits_patterns:
+        set_digits = set(digit_pattern)
         if len(digit_pattern) == 2:
-            one = set(digit_pattern)
-            to_return[1] = one
+            to_return[1] = set_digits
         elif len(digit_pattern) == 4:
-            four = set(digit_pattern)
-            to_return[4] = four
+            to_return[4] = set_digits
         elif len(digit_pattern) == 3:
-            seven = set(digit_pattern)
-            to_return[7] = seven
+            to_return[7] = set_digits
         elif len(digit_pattern) == 7:
-            eight = set(digit_pattern)
-            to_return[8] = eight
+            to_return[8] = set_digits
 
-    zero_or_six_or_nine = [set(v) for v in digits_patterns if len(v) == 6]
-    two_or_three_or_five = [set(v) for v in digits_patterns if len(v) == 5]
-    four_union_seven = four.union(seven)
-    for i, val in enumerate(zero_or_six_or_nine):
-        if len(val.difference(four_union_seven)) == 1:
-            nine = zero_or_six_or_nine.pop(i)
-            to_return[9] = nine
-            break
-    zero_or_six = zero_or_six_or_nine.copy()
-    for i, val in enumerate(zero_or_six):
-        if len(val.difference(one)) == 4:
-            zero = zero_or_six.pop(i)
-            to_return[0] = zero
-            break
-    six = zero_or_six[0]
-    to_return[6] = six
-    for i, val in enumerate(two_or_three_or_five):
-        if len(val.difference(one)) == 3:
-            three = two_or_three_or_five.pop(i)
-            to_return[3] = three
-            break
-    two_or_five = two_or_three_or_five.copy()
-    for i, val in enumerate(two_or_five):
-        if four.union(val) == nine:
-            five = two_or_five.pop(i)
-            to_return[5] = five
-    two = two_or_five[0]
-    to_return[2] = two
+    for digit_pattern in digits_patterns:
+        set_digits = set(digit_pattern)
+
+        if len(digit_pattern) in {2, 4, 3, 7}:
+            continue
+
+        # the number can be either 0 or 6 or 9
+        if len(digit_pattern) == 6:
+
+            # the shape of 4 and 7 combined give lack 1 piece, compared to the shape of 9
+            if len(set_digits.difference(to_return[4].union(to_return[7]))) == 1:
+                to_return[9] = set_digits
+
+            # the shape of 1 lacks 4 pieces, compared to the shape of 0
+            elif len(set_digits.difference(to_return[1])) == 4:
+                to_return[0] = set_digits
+            else:
+                to_return[6] = set_digits
+
+        # the number can be either 2 or 3 or 5
+        elif len(digit_pattern) == 5:
+
+            # the shape of  1 lacks 3 pieces, when compared with the shape of 3
+            if len(set_digits.difference(to_return[1])) == 3:
+                to_return[3] = set_digits
+
+            # the shapes of 4 and 5 have 3 pieces in common
+            elif len(set_digits.intersection(to_return[4])) == 3:
+                to_return[5] = set_digits
+            else:
+                to_return[2] = set_digits
 
     return to_return
 
